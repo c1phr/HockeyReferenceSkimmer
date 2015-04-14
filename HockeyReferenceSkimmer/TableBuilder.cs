@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,24 @@ namespace HockeyReferenceSkimmer
                 string[] skaterData = {skater["Player"].ToString(), team, skater["PTS"].ToString(), skater["+/-"].ToString(), skaterProfile["Salary"].ToString().Replace(",", "").Replace("$", "")};
                 FilteredTable.Rows.Add(skaterData);
             }
+        }
+
+        public void ExportCSV(string fileName)
+        {
+            StringBuilder sb = new StringBuilder();
+            // Grab the column names
+            IEnumerable<string> cols = FilteredTable.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+            Console.WriteLine(string.Join(",", cols));
+            sb.AppendLine(string.Join(",", cols));
+
+            foreach (DataRow row in FilteredTable.Rows)
+            {
+                IEnumerable<string> data = row.ItemArray.Select(field => field.ToString());
+                Console.WriteLine(string.Join(",", data));
+                sb.AppendLine(string.Join(",", data));
+            }
+
+            File.WriteAllText(fileName, sb.ToString());
         }
 
         public void PrintFilterData()

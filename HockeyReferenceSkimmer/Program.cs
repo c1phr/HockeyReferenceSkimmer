@@ -20,8 +20,7 @@ namespace HockeyReferenceSkimmer
                 processor.FilterData(skaters, roster, team);
 		    }
 		    
-            processor.PrintFilterData();
-		    Console.ReadLine();
+            processor.ExportCSV("ProjectData.csv");
 		}
 
 	}

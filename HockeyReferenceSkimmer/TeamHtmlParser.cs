@@ -37,8 +37,7 @@ namespace HockeyReferenceSkimmer
 
             }
             foreach (var row in doc.DocumentNode.QuerySelectorAll("#roster tbody tr"))
-            {
-                Console.WriteLine(row);
+            {                
                 var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
                 roster.Rows.Add(tdRow);
             }
@@ -61,8 +60,7 @@ namespace HockeyReferenceSkimmer
                 skaters.Columns.Add(header);
             }
             foreach (var row in doc.DocumentNode.QuerySelectorAll("#skaters tr"))
-            {
-                Console.WriteLine(row);
+            {                
                 var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
                 skaters.Rows.Add(tdRow);
             }
