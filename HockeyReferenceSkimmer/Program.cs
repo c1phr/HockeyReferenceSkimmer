@@ -14,6 +14,7 @@ namespace HockeyReferenceSkimmer
             var processor = new TableBuilder();
 		    foreach (var team in Teams)
 		    {
+				Console.WriteLine ("Processing: " + team);
                 HtmlDocument TeamTable = TeamHtmlParser.GetTeamTables(team);
                 var roster = TeamHtmlParser.GetTeamRoster(TeamTable);
                 var skaters = TeamHtmlParser.GetTeamSkaters(TeamTable);                

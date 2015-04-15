@@ -26,7 +26,7 @@ namespace HockeyReferenceSkimmer
         {
             foreach (var skater in skaters.Select("Pos = 'D' AND GP > 59"))
             {
-                var skaterProfile = roster.Select("Player = '" + skater["Player"].ToString() + "'").First();
+				var skaterProfile = roster.Select("Player = '" + skater["Player"].ToString() + "'").First();
                 string[] skaterData = {skater["Player"].ToString(), team, skater["PTS"].ToString(), skater["+/-"].ToString(), skaterProfile["Salary"].ToString().Replace(",", "").Replace("$", "")};
                 FilteredTable.Rows.Add(skaterData);
             }

@@ -26,7 +26,7 @@ namespace HockeyReferenceSkimmer
             return doc;
         }
 
-        public static DataTable GetTeamRoster(HtmlDocument doc)
+		public static DataTable GetTeamRoster(HtmlDocument doc)
         {
             //var headers = doc.DocumentNode.QuerySelectorAll("#roster th .tooltip .sort_default_asc");
             string[] headers = {"No.", "Player", "Pos", "Age", "Ht", "Wt", "S/C", "Exp", "Birth Date", "Summary", "Salary"};
@@ -37,9 +37,20 @@ namespace HockeyReferenceSkimmer
 
             }
             foreach (var row in doc.DocumentNode.QuerySelectorAll("#roster tbody tr"))
-            {                
-                var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
-                roster.Rows.Add(tdRow);
+            {				
+                //var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
+				var tdRow = row.InnerText.Replace(" ", "").Split(Environment.NewLine.ToCharArray());
+				var tdList = new List<string>(tdRow);
+
+				for (int i=0; i < tdList.Count; i++)
+				{
+					// Clean up some extra strings that sometimes get tacked on the end
+					if (string.IsNullOrEmpty(tdList[i]))
+					{
+						tdList.RemoveAt(i);
+					}
+				}
+				roster.Rows.Add(tdList.ToArray());
             }
 
             return roster;
@@ -59,10 +70,27 @@ namespace HockeyReferenceSkimmer
             {
                 skaters.Columns.Add(header);
             }
-            foreach (var row in doc.DocumentNode.QuerySelectorAll("#skaters tr"))
-            {                
-                var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
-                skaters.Rows.Add(tdRow);
+
+            foreach (var row in doc.DocumentNode.QuerySelectorAll("#skaters tbody tr"))
+            {        
+                //var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
+				var tdRow = row.InnerText.Split(Environment.NewLine.ToCharArray());
+				var tdList = new List<string>(tdRow);
+				
+				for (int i=0; i < tdList.Count; i++)
+				{
+					// Clean up some extra strings that sometimes get tacked on the end
+					if (string.IsNullOrEmpty(tdList[i]))
+					{
+						tdList.RemoveAt(i);
+					}
+					else
+					{
+						tdList[i] = tdList[i].Trim();
+					}
+				}
+
+				skaters.Rows.Add(tdList.ToArray());
             }
 
             return skaters;
