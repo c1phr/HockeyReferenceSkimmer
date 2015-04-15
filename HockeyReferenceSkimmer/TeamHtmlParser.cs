@@ -39,7 +39,7 @@ namespace HockeyReferenceSkimmer
             foreach (var row in doc.DocumentNode.QuerySelectorAll("#roster tbody tr"))
             {				
                 //var tdRow = row.ChildNodes.Select(td => td.InnerText).Except(new[] { "/n ", "\n  ", "\n", "\n   " }).ToArray();
-				var tdRow = row.InnerText.Replace(" ", "").Split(Environment.NewLine.ToCharArray());
+				var tdRow = row.InnerText.Split(Environment.NewLine.ToCharArray());
 				var tdList = new List<string>(tdRow);
 
 				for (int i=0; i < tdList.Count; i++)
@@ -49,6 +49,10 @@ namespace HockeyReferenceSkimmer
 					{
 						tdList.RemoveAt(i);
 					}
+                    else
+                    {
+                        tdList[i] = tdList[i].Trim();
+                    }
 				}
 				roster.Rows.Add(tdList.ToArray());
             }

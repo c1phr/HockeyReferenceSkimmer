@@ -24,11 +24,15 @@ namespace HockeyReferenceSkimmer
         }
         public void FilterData(DataTable skaters, DataTable roster, string team)
         {
-            foreach (var skater in skaters.Select("Pos = 'D' AND GP > 59"))
+            foreach (var skater in skaters.Select("Pos = 'D'"))
             {
-				var skaterProfile = roster.Select("Player = '" + skater["Player"].ToString() + "'").First();
-                string[] skaterData = {skater["Player"].ToString(), team, skater["PTS"].ToString(), skater["+/-"].ToString(), skaterProfile["Salary"].ToString().Replace(",", "").Replace("$", "")};
-                FilteredTable.Rows.Add(skaterData);
+                if (Int32.Parse(skater["GP"].ToString()) > 59)
+                {
+                    var skaterProfile = roster.Select("Player = '" + skater["Player"].ToString().Replace(@"'", "") + "'").First();
+                    string[] skaterData = { skater["Player"].ToString(), team, skater["PTS"].ToString(), skater["+/-"].ToString(), skaterProfile["Salary"].ToString().Replace(",", "").Replace("$", "") };
+                    FilteredTable.Rows.Add(skaterData);
+                }
+				
             }
         }
 
