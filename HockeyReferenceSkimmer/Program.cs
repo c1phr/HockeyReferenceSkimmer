@@ -32,13 +32,23 @@ namespace HockeyReferenceSkimmer
 			DataTable Data2014 = processor2014.GetFilteredData ();
 			DataTable Data2015 = processor2015.GetFilteredData ();
 			DataTable DataMerged = new DataTable ();
-			foreach (DataColumn col in Data2015.Columns)
+		    string[] newCols = {"Player", "Team", "Points", "Differential", "Annual Salary;"};
+			foreach (string col in newCols)
 			{
 				DataMerged.Columns.Add (col);
 			}
-			foreach (DataRow row in Data2015)
+			foreach (DataRow row in Data2015.Rows)
 			{
-				
+			    var Player2014 = Data2014.Select("Player = '" + row["Player"] + "'").FirstOrDefault();
+			    if (Player2014 != null)
+			    {
+			        string[] playerData =
+			        {
+			            row["Player"].ToString(), row["Team"].ToString(), Player2014["Points"].ToString(),
+			            Player2014["Differential"].ToString(), row["Annual Salary"].ToString()
+			        };
+			        DataMerged.Rows.Add(playerData);
+			    }
 			}
 		    
 			TableBuilder.ExportCSV(DataMerged, "ProjectData.csv");

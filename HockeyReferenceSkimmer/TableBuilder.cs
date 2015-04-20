@@ -49,7 +49,7 @@ namespace HockeyReferenceSkimmer
             Console.WriteLine(string.Join(",", cols));
             sb.AppendLine(string.Join(",", cols));
 
-            foreach (DataRow row in FilteredTable.Rows)
+            foreach (DataRow row in FilteredData.Rows)
             {
                 IEnumerable<string> data = row.ItemArray.Select(field => field.ToString());
                 Console.WriteLine(string.Join(",", data));
