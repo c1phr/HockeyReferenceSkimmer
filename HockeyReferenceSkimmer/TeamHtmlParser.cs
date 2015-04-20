@@ -14,8 +14,12 @@ namespace HockeyReferenceSkimmer
     class TeamHtmlParser
     {
 
-        public static HtmlDocument GetTeamTables(string teamCode, string year = "2015")
+        public static HtmlDocument GetTeamTables(string teamCode, string year = "2014")
         {
+			if (int.Parse(year) < 2015 && teamCode == "ARI")
+			{
+				teamCode = "PHX";
+			}
             var url = "http://www.hockey-reference.com/teams/" + teamCode + "/" + year + ".html";
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.OptionWriteEmptyNodes = true;
