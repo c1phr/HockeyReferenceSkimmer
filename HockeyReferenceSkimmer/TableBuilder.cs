@@ -22,7 +22,7 @@ namespace HockeyReferenceSkimmer
                 FilteredTable.Columns.Add(col);
             }
         }
-        public void FilterData(DataTable skaters, DataTable roster, string team)
+		public void FilterData(DataTable skaters, DataTable roster, string team)
         {
             foreach (var skater in skaters.Select("Pos = 'D'"))
             {
@@ -36,11 +36,16 @@ namespace HockeyReferenceSkimmer
             }
         }
 
-        public void ExportCSV(string fileName)
+		public DataTable GetFilteredData()
+		{
+			return FilteredTable;
+		}
+
+		public static void ExportCSV(DataTable FilteredData, string fileName)
         {
             StringBuilder sb = new StringBuilder();
             // Grab the column names
-            IEnumerable<string> cols = FilteredTable.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+			IEnumerable<string> cols = FilteredData.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
             Console.WriteLine(string.Join(",", cols));
             sb.AppendLine(string.Join(",", cols));
 
